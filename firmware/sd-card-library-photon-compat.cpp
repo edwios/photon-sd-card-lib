@@ -326,6 +326,16 @@ boolean callback_rmdir(SdFile& parentDir, char *filePathComponent,
   return true;
 }
 
+boolean callback_rmRfStar(SdFile& parentDir, char *filePathComponent, 
+			boolean isLastComponent, void *object) {
+  if (isLastComponent) {
+    SdFile f;
+    if (!f.open(parentDir, filePathComponent, O_READ)) return false;
+    return f.rmRfStar();
+  }
+  return true;
+}
+
 
 
 /* Implementation of class used to create `SDCard` object. */
@@ -561,6 +571,18 @@ boolean SDClass::rmdir(char *filepath) {
   
    */
   return walkPath(filepath, root, callback_rmdir);
+}
+
+/* rmRfStar */
+boolean SDClass::rmRfStar(char *filepath) {
+  /*
+  
+    Remove a directory and its subdirectories and files
+
+    Equivalent to `rm -rf`.
+  
+   */
+  return walkPath(filepath, root, callback_rmRfStar);
 }
 
 boolean SDClass::remove(char *filepath) {
