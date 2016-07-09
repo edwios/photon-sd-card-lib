@@ -85,6 +85,10 @@ public:
   boolean remove(char *filepath);
   
   boolean rmdir(char *filepath);
+  
+  // rmRfStar
+  boolean rmRfStar(char *filepath);
+  
 
 private:
 
